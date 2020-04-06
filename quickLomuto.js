@@ -25,6 +25,8 @@ function QuickSortLomuto() {
 
          for (let j = i['']; j < end; ++j) {
             myDelay(100);
+            passes++;
+            compares++;
             if (arr[j] < pivot) {
                colors[i['']] = color('red');
                colors[j] = color('red');
@@ -32,10 +34,12 @@ function QuickSortLomuto() {
                colors[i['']] = color('white');
                colors[j] = color('white');
                swap(arr, i['']++, j);
+               swaps++;
             }
          }
 
          swap(arr, i[''], end);
+         swaps++;
          colors[i['']] = color(128, 255, 51);
       }
    }

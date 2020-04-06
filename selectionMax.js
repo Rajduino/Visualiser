@@ -6,7 +6,7 @@ function SelectionSortMax() {
       for (let i = arr.length - 1; i >= 0; --i) {
          // Find maximum element
          let index = i;
-
+         passes++;
          for (let j = 0; j <= i; ++j) {
             myDelay(100);
             colors[j] = color('red');
@@ -14,6 +14,7 @@ function SelectionSortMax() {
             yield colors;
             colors[j] = color('white');
             colors[index] = color('white');
+            compares++;
             if (arr[j] > arr[index]) {
                index = j;
             }
@@ -22,6 +23,7 @@ function SelectionSortMax() {
          // Swap with current element
          if (index !== i) {
             swap(arr, i, index);
+            swaps++;
          }
 
          // Current element is correctly sorted

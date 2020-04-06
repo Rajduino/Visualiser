@@ -27,11 +27,13 @@ function QuickSortHoare() {
          while (true) {
             do {
                ++i;
+               compares++;
             } while (arr[i] < pivot);
 
 
             do {
                --j[''];
+               compares++;
             } while (arr[j['']] > pivot);
 
             colors[i] = color('red');
@@ -43,8 +45,8 @@ function QuickSortHoare() {
             if (i >= j[''])
                break;
 
-
             swap(arr, i, j['']);
+            swaps++;
             myDelay(100);
          }
       }
