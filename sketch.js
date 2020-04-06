@@ -228,6 +228,7 @@ function draw() {
         stroke(0);
         rect(i * w, height - array[i], w, array[i]);
         textAlign(LEFT, TOP);
+        textSize(map(array.length,1,100,40,12));
         fill(0);
         text(int(array[i]/10),(i+0.1)*w,height-array[i]+(height*.005));
       } else if (representation === DOT) {
