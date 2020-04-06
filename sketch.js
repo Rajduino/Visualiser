@@ -15,48 +15,27 @@ const quickSortHoare = new QuickSortHoare();
 const DOT = 0,
   LINE = 1;
 
-const col = {
-  r: 250,
-  g: 0,
-  b: 190
-};
-
-const spot = {
-  x: 0,
-  y: 0
-};
-
-let select_algorithm;
-let input_count;
-let button_range;
-let button_reversed;
-let button_shuffled;
-let button_random;
-let button_noise;
-let button_back;
-let button_pause;
-let button_next;
-let button_sort;
-
 const algorithms = {
   bubbleSort,
   selectionSortMax,
   selectionSortMin,
   insertionSort,
+  // heapSort: {
+  //   name: 'Heap Sort (Max, coming soon)',
+  //   count: 200,
+  //   representation: LINE,
+  //   sorter: function* (arr, colors) { }
+  // },
   mergeSort,
   quickSortLomuto,
-  quickSortHoare,
-  auxualary: {
-    name: 'And a lot more coming soon!!',
-    count: 0,
-    representation: LINE,
-    sorter: function* (arr, colors) { }
-  }
+  quickSortHoare
 }
 
-function initialiseElements() {
-  select_algorithm = createSelect();
+function initialiseElements()
+{
+    let select_algorithm = createSelect();
   select_algorithm.position(10, 10);
+
   for (let algo in algorithms) {
     select_algorithm.option(algorithms[algo]['name'], algo);
   }
@@ -68,73 +47,60 @@ function initialiseElements() {
     shuffle(array, true);
   });
 
-  input_count = createInput(algorithms[select_algorithm.value()]['count'].toString());
+  let input_count = createInput(algorithms[select_algorithm.value()]['count'].toString());
   input_count.position(10, 60);
   input_count.attribute('type', 'number');
   input_count.attribute('min', '10');
   input_count.attribute('max', '1000');
 
-  button_range = createButton('Ordered');
+  let button_range = createButton('Ordered');
   button_range.position(10, 80);
   button_range.mousePressed(() => {
     init(algorithms[select_algorithm.value()], parseInt(input_count.value()));
   });
 
-  button_reversed = createButton('Reversed');
+  let button_reversed = createButton('Reversed');
   button_reversed.position(10, 100);
   button_reversed.mousePressed(() => {
     init(algorithms[select_algorithm.value()], parseInt(input_count.value()));
     reverse(array);
   });
 
-  button_shuffled = createButton('Shuffled');
+  let button_shuffled = createButton('Shuffled');
   button_shuffled.position(10, 120);
   button_shuffled.mousePressed(() => {
     init(algorithms[select_algorithm.value()], parseInt(input_count.value()));
     shuffle(array, true);
   });
 
-    /*
-    button_random = createButton('Random');
-    button_random.position(10, 140);
-    button_random.mousePressed(() => {
-      init(algorithms[select_algorithm.value()], parseInt(input_count.value()));
-  
-      let maximum = max(array);
-      let minimum = min(array);
-  
-      for (let i in array) {
-        array[i] = random(minimum, maximum);
-      }
-    });
-  
-    button_noise = createButton('Noise');
-    button_noise.position(10, 160);
-    button_noise.mousePressed(() => {
-      init(algorithms[select_algorithm.value()], parseInt(input_count.value()));
-    });
-    */
+  /*
+  let button_random = createButton('Random');
+  button_random.position(10, 140);
+  button_random.mousePressed(() => {
+    init(algorithms[select_algorithm.value()], parseInt(input_count.value()));
 
-  button_back = createButton('Back');
-  button_back.position(width - 200, 10);
-  button_back.mousePressed(() => {
-    pageNo = 0;
-    colors = null;
-    sorter = null;
-    representation = 0;
-    paused = true;
-    w = 0;
-    hideElements();
-    clear();
-    background(0);
+    let maximum = max(array);
+    let minimum = min(array);
+
+    for (let i in array) {
+      array[i] = random(minimum, maximum);
+    }
   });
 
-  button_pause = createButton('Pause');
+  let button_noise = createButton('Noise');
+  button_noise.position(10, 160);
+  button_noise.mousePressed(() => {
+    init(algorithms[select_algorithm.value()], parseInt(input_count.value()));
+  });
+  */
+
+  let button_pause = createButton('Pause');
   button_pause.position(10, 35);
   button_pause.mousePressed(() => {
     paused = true
   });
-  button_next = createButton('Next');
+
+  let button_next = createButton('Next');
   button_next.position(60, 35);
   button_next.mousePressed(() => {
     if (paused) {
@@ -143,69 +109,42 @@ function initialiseElements() {
       paused = true;
     }
   });
-  button_sort = createButton('Sort!');
+
+  let button_sort = createButton('Sort!');
   button_sort.position(110, 35);
   button_sort.mousePressed(() => {
     if (!paused) {
       init(algorithms[select_algorithm.value()], parseInt(input_count.value()));
       shuffle(array, true);
     }
+
     paused = false;
   });
 
   init(algorithms[select_algorithm.value()], parseInt(input_count.value()));
-    shuffle(array, true);
+  shuffle(array, true);
 }
-function showElements()
+function landingPage()
 {
-  select_algorithm.show();
-  input_count.show();
-  button_range.show();
-  button_reversed.show();
-  button_shuffled.show();
-  //button_random.show();
-  //button_noise.show();
-  button_back.show();
-  button_pause.show();
-  button_next.show();
-  button_sort.show();
-}
-function hideElements()
-{
-  select_algorithm.hide();
-  input_count.hide();
-  button_range.hide();
-  button_reversed.hide();
-  button_shuffled.hide();
-  //button_random.hide();
-  //button_noise.hide();
-  button_back.hide();
-  button_pause.hide();
-  button_next.hide();
-  button_sort.hide();
-}
-function landingPage() {
-
-  textAlign(CENTER, CENTER);
-  fill('#A8A8A8');
-  textSize(50);
-  text('Algorithm Visualiser', windowWidth * 0.1, windowHeight * 0.2, windowWidth * 0.8, windowHeight * 0.2);
-  textSize(18);
-  text('Algorithms, from the first time we learnt them in school till now as we are completing our engineering, we can\'t leave them. We may understand them but how is it like to watch them in action? The objective of this project is to visualise some of the common algorithms while they are in execution.', windowWidth * 0.2, windowHeight * 0.3, windowWidth * 0.6, windowHeight * 0.4);
-  fill(0, 200, 100);
-  rect(windowWidth * 0.4, windowHeight * 0.6, windowWidth * 0.2, windowHeight * 0.1);
+  textAlign(CENTER,CENTER);
   fill(0);
-  text('Let\'s get started !', windowWidth * 0.4, windowHeight * 0.6, windowWidth * 0.2, windowHeight * 0.1);
+  textSize(50);
+  text('Algorithm Visualiser',windowWidth*0.1,windowHeight*0.2,windowWidth*0.8,windowHeight*0.2);
+  textSize(20);
+  text('Algorithms, from the first time we learnt in school till now as we are completing our engineering, we can\'t leave them. We may understand them but how is it like to watch them in action? The objective of this project is to visualise some of the common algorithms while they are in execution',windowWidth*0.2,windowHeight*0.3,windowWidth*0.6,windowHeight*0.4);
+  fill(0,200,100);
+  rect(windowWidth*0.4,windowHeight*0.6,windowWidth*0.2,windowHeight*0.1);
+  fill(0);
+  text('Let\'s get started',windowWidth*0.4,windowHeight*0.6,windowWidth*0.2,windowHeight*0.1);
 }
 // Sketch
 function setup() {
 
   createCanvas(windowWidth, windowHeight);
   //initialiseElements();
-  pageNo = 0;
-  background(0);
-  initialiseElements();
-  hideElements();
+  pageNo=0;
+  landingPage();
+
 }
 
 function init(algo, length) {
@@ -227,46 +166,34 @@ function init(algo, length) {
 
 
 
-
 function draw() {
-
-  if (pageNo === 0) {
-
-    col.r = random(70, 170);
-    col.b = random(70, 140);
-    spot.x = random(0, width);
-    spot.y = random(0, height);
-
-    //hideElements();
-    fill(col.r, col.g, col.b, 70);
-    noStroke();
-    ellipse(spot.x, spot.y, 30, 30);
+  background(120, 0, 200);
+  // frameRate(2);
+  noStroke();
+  if(pageNo===0)
+  {
     landingPage();
   }
-  else if (pageNo === 1) {
-    // background(160, 0, 180);
-    background('#353966');
-    // frameRate(2);
-    noStroke();
-    if (!paused) {
-      let next = sorter.next();
+  else{
+  if (!paused) {
+    let next = sorter.next();
 
-      colors = next.value;
-      paused = next.done;
-    }
-
-    for (let i = 0; i < array.length; ++i) {
-      fill(colors[i]);
-      if (representation === LINE) {
-        stroke(0);
-        rect(i * w, height - array[i], w, array[i]);
-      } else if (representation === DOT) {
-        ellipse(i * w, height - array[i], w, w)
-      }
-      // stroke(colors[i]);
-      // point(i * w,  height - array[i]);
-    }
+    colors = next.value;
+    paused = next.done;
   }
+
+  for (let i = 0; i < array.length; ++i) {
+    fill(colors[i]);
+    if (representation === LINE) {
+      stroke(0);
+      rect(i * w, height - array[i], w, array[i]);
+    } else if (representation === DOT) {
+      ellipse(i * w, height - array[i], w, w)
+    }
+    // stroke(colors[i]);
+    // point(i * w,  height - array[i]);
+  }
+}
 }
 
 // Helper functions
@@ -276,13 +203,13 @@ function swap(arr, i, j) {
   [arr[i], arr[j]] = [arr[j], arr[i]];
 }
 
-function mousePressed() {
-  if (pageNo === 0) {
-    if (mouseX > windowWidth * 0.4 && mouseX < windowWidth * 0.6 && mouseY > windowHeight * 0.6 && mouseY < windowHeight * 0.7)
-    {
-      pageNo = 1;
-      showElements();
-    }
+function mousePressed()
+{
+  if(pageNo===0)
+  {
+    if(mouseX>windowWidth*0.4 && mouseX<windowWidth*0.6 && mouseY>windowHeight*0.6 && mouseY< windowHeight*0.7)
+      pageNo=1;
+      initialiseElements();
   }
 }
 
