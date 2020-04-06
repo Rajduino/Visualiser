@@ -26,17 +26,6 @@ const spot = {
   y: 0
 };
 
-let select_algorithm;
-let input_count;
-let button_range;
-let button_reversed;
-let button_shuffled;
-let button_random;
-let button_noise;
-let button_back;
-let button_pause;
-let button_next;
-let button_sort;
 
 const algorithms = {
   bubbleSort,
@@ -55,47 +44,49 @@ const algorithms = {
 }
 
 function initialiseElements() {
-  select_algorithm = createSelect();
-  select_algorithm.position(10, 10);
-  for (let algo in algorithms) {
-    select_algorithm.option(algorithms[algo]['name'], algo);
-  }
+  if (pageNo === 1) {
+    let select_algorithm = createSelect();
+    select_algorithm.position(10, 10);
 
-  select_algorithm.changed(() => {
-    let algorithm = algorithms[select_algorithm.value()];
-    input_count.value(algorithm['count']);
-    init(algorithm, algorithm['count']);
-    shuffle(array, true);
-  });
+    for (let algo in algorithms) {
+      select_algorithm.option(algorithms[algo]['name'], algo);
+    }
 
-  input_count = createInput(algorithms[select_algorithm.value()]['count'].toString());
-  input_count.position(10, 60);
-  input_count.attribute('type', 'number');
-  input_count.attribute('min', '10');
-  input_count.attribute('max', '1000');
+    select_algorithm.changed(() => {
+      let algorithm = algorithms[select_algorithm.value()];
+      input_count.value(algorithm['count']);
+      init(algorithm, algorithm['count']);
+      shuffle(array, true);
+    });
 
-  button_range = createButton('Ordered');
-  button_range.position(10, 80);
-  button_range.mousePressed(() => {
-    init(algorithms[select_algorithm.value()], parseInt(input_count.value()));
-  });
+    let input_count = createInput(algorithms[select_algorithm.value()]['count'].toString());
+    input_count.position(10, 60);
+    input_count.attribute('type', 'number');
+    input_count.attribute('min', '10');
+    input_count.attribute('max', '1000');
 
-  button_reversed = createButton('Reversed');
-  button_reversed.position(10, 100);
-  button_reversed.mousePressed(() => {
-    init(algorithms[select_algorithm.value()], parseInt(input_count.value()));
-    reverse(array);
-  });
+    let button_range = createButton('Ordered');
+    button_range.position(10, 80);
+    button_range.mousePressed(() => {
+      init(algorithms[select_algorithm.value()], parseInt(input_count.value()));
+    });
 
-  button_shuffled = createButton('Shuffled');
-  button_shuffled.position(10, 120);
-  button_shuffled.mousePressed(() => {
-    init(algorithms[select_algorithm.value()], parseInt(input_count.value()));
-    shuffle(array, true);
-  });
+    let button_reversed = createButton('Reversed');
+    button_reversed.position(10, 100);
+    button_reversed.mousePressed(() => {
+      init(algorithms[select_algorithm.value()], parseInt(input_count.value()));
+      reverse(array);
+    });
+
+    let button_shuffled = createButton('Shuffled');
+    button_shuffled.position(10, 120);
+    button_shuffled.mousePressed(() => {
+      init(algorithms[select_algorithm.value()], parseInt(input_count.value()));
+      shuffle(array, true);
+    });
 
     /*
-    button_random = createButton('Random');
+    let button_random = createButton('Random');
     button_random.position(10, 140);
     button_random.mousePressed(() => {
       init(algorithms[select_algorithm.value()], parseInt(input_count.value()));
@@ -108,81 +99,58 @@ function initialiseElements() {
       }
     });
   
-    button_noise = createButton('Noise');
+    let button_noise = createButton('Noise');
     button_noise.position(10, 160);
     button_noise.mousePressed(() => {
       init(algorithms[select_algorithm.value()], parseInt(input_count.value()));
     });
     */
 
-  button_back = createButton('Back');
-  button_back.position(width - 200, 10);
-  button_back.mousePressed(() => {
-    pageNo = 0;
-    colors = null;
-    sorter = null;
-    representation = 0;
-    paused = true;
-    w = 0;
-    hideElements();
-    clear();
-    background(0);
-  });
+    // let button_back = createButton('Back');
+    // button_back.position(width - 200, 10);
+    // button_back.mousePressed(() => {
+    //   pageNo = 0;
+    //   // colors = null;
+    //   // sorter = null;
+    //   // representation = 0;
+    //   // paused = true;
+    //   // w = 0;
+    //   // noLoop();
+    //   // clear();
+    //   background(0);
+    //   // loop();
+    // });
 
-  button_pause = createButton('Pause');
-  button_pause.position(10, 35);
-  button_pause.mousePressed(() => {
-    paused = true
-  });
-  button_next = createButton('Next');
-  button_next.position(60, 35);
-  button_next.mousePressed(() => {
-    if (paused) {
+    let button_pause = createButton('Pause');
+    button_pause.position(10, 35);
+    button_pause.mousePressed(() => {
+      paused = true
+    });
+
+    let button_next = createButton('Next');
+    button_next.position(60, 35);
+    button_next.mousePressed(() => {
+      if (paused) {
+        paused = false;
+        redraw();
+        paused = true;
+      }
+    });
+
+    let button_sort = createButton('Sort!');
+    button_sort.position(110, 35);
+    button_sort.mousePressed(() => {
+      if (!paused) {
+        init(algorithms[select_algorithm.value()], parseInt(input_count.value()));
+        shuffle(array, true);
+      }
+
       paused = false;
-      redraw();
-      paused = true;
-    }
-  });
-  button_sort = createButton('Sort!');
-  button_sort.position(110, 35);
-  button_sort.mousePressed(() => {
-    if (!paused) {
-      init(algorithms[select_algorithm.value()], parseInt(input_count.value()));
-      shuffle(array, true);
-    }
-    paused = false;
-  });
+    });
 
-  init(algorithms[select_algorithm.value()], parseInt(input_count.value()));
+    init(algorithms[select_algorithm.value()], parseInt(input_count.value()));
     shuffle(array, true);
-}
-function showElements()
-{
-  select_algorithm.show();
-  input_count.show();
-  button_range.show();
-  button_reversed.show();
-  button_shuffled.show();
-  //button_random.show();
-  //button_noise.show();
-  button_back.show();
-  button_pause.show();
-  button_next.show();
-  button_sort.show();
-}
-function hideElements()
-{
-  select_algorithm.hide();
-  input_count.hide();
-  button_range.hide();
-  button_reversed.hide();
-  button_shuffled.hide();
-  //button_random.hide();
-  //button_noise.hide();
-  button_back.hide();
-  button_pause.hide();
-  button_next.hide();
-  button_sort.hide();
+  }
 }
 function landingPage() {
 
@@ -204,8 +172,7 @@ function setup() {
   //initialiseElements();
   pageNo = 0;
   background(0);
-  initialiseElements();
-  hideElements();
+
 }
 
 function init(algo, length) {
@@ -237,7 +204,7 @@ function draw() {
     spot.x = random(0, width);
     spot.y = random(0, height);
 
-    //hideElements();
+
     fill(col.r, col.g, col.b, 70);
     noStroke();
     ellipse(spot.x, spot.y, 30, 30);
@@ -260,6 +227,9 @@ function draw() {
       if (representation === LINE) {
         stroke(0);
         rect(i * w, height - array[i], w, array[i]);
+        textAlign(LEFT, TOP);
+        fill(0);
+        text(int(array[i]/10),(i+0.1)*w,height-array[i]+(height*.005));
       } else if (representation === DOT) {
         ellipse(i * w, height - array[i], w, w)
       }
@@ -279,10 +249,8 @@ function swap(arr, i, j) {
 function mousePressed() {
   if (pageNo === 0) {
     if (mouseX > windowWidth * 0.4 && mouseX < windowWidth * 0.6 && mouseY > windowHeight * 0.6 && mouseY < windowHeight * 0.7)
-    {
       pageNo = 1;
-      showElements();
-    }
+    initialiseElements();
   }
 }
 
