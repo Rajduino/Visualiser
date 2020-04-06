@@ -3,7 +3,10 @@ let array,
   sorter,
   representation,
   paused = true,
-  w;
+  w,
+  passes,
+  swaps,
+  compares;
 let pageNo;
 const bubbleSort = new BubbleSort();
 const selectionSortMax = new SelectionSortMax();
@@ -178,7 +181,9 @@ function setup() {
 function init(algo, length) {
   paused = true;
   w = width / length;
-
+  passes=0;
+  swaps=0;
+  compares=0;
   representation = algo['representation'];
 
   // Generation of array
@@ -221,7 +226,6 @@ function draw() {
       colors = next.value;
       paused = next.done;
     }
-
     for (let i = 0; i < array.length; ++i) {
       fill(colors[i]);
       if (representation === LINE) {
@@ -237,6 +241,10 @@ function draw() {
       // stroke(colors[i]);
       // point(i * w,  height - array[i]);
     }
+    stroke(0);
+    fill(255);
+    textSize(40);
+    text("Passes="+passes+" Swaps="+swaps+" Compares="+compares,width*0.2,50);
   }
 }
 

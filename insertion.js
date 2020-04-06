@@ -4,6 +4,7 @@ function InsertionSort() {
    this.representation = 1;
    this.sorter = function* (arr, colors) {
       for (let i = 1; i < arr.length; ++i) {
+         passes++;
          let j = i - 1;
 
          while (j >= 0 && arr[j] > arr[i]) {
@@ -12,6 +13,8 @@ function InsertionSort() {
             yield colors;
             colors[i] = color('white');
             swap(arr, i, j);
+            swaps++;
+            compares++;
             swap(colors, i--, j--);
          }
       }

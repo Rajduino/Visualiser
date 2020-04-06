@@ -23,15 +23,18 @@ function MergeSort() {
          let j = middle + 1;
 
          while (i <= middle && j <= end) {
+            passes++;
             myDelay(100);
             colors[i] = color('red');
             colors[j] = color('red');
             yield colors;
             colors[i] = color(128, 255, 51);
             colors[j] = color(128, 255, 51);
+            compares++;
             if (arr[i] > arr[j]) {
                for (let k = i; k <= j; ++k) {
                   swap(arr, k, j);
+                  swaps++;
                   swap(colors, k, j);
                }
 

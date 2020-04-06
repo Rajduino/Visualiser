@@ -6,7 +6,7 @@ function SelectionSortMin() {
       for (let i = 0; i < arr.length; ++i) {
          // Find minimum element
          let index = i;
-
+         passes++;
          for (let j = i; j < arr.length; ++j) {
             myDelay(100);
             colors[j] = color('red');
@@ -14,6 +14,7 @@ function SelectionSortMin() {
             yield colors;
             colors[j] = color('white');
             colors[index] = color('white');
+            compares++;
             if (arr[j] < arr[index]) {
                index = j;
             }
@@ -22,6 +23,7 @@ function SelectionSortMin() {
          // Swap with current element
          if (index !== i) {
             swap(arr, i, index);
+            swaps++;
          }
 
          // Current element is correctly sorted
