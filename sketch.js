@@ -13,8 +13,7 @@ const selectionSortMax = new SelectionSortMax();
 const selectionSortMin = new SelectionSortMin();
 const insertionSort = new InsertionSort();
 const mergeSort = new MergeSort();
-const quickSortLomuto = new QuickSortLomuto();
-const quickSortHoare = new QuickSortHoare();
+const quickSort = new QuickSort();
 const DOT = 0,
   LINE = 1;
 
@@ -36,8 +35,7 @@ const algorithms = {
   selectionSortMin,
   insertionSort,
   mergeSort,
-  quickSortLomuto,
-  quickSortHoare,
+  quickSort,
   auxualary: {
     name: 'And a lot more coming soon!!',
     count: 0,
@@ -181,9 +179,9 @@ function setup() {
 function init(algo, length) {
   paused = true;
   w = width / length;
-  passes=0;
-  swaps=0;
-  compares=0;
+  passes = 0;
+  swaps = 0;
+  compares = 0;
   representation = algo['representation'];
 
   // Generation of array
@@ -232,9 +230,9 @@ function draw() {
         stroke(0);
         rect(i * w, height - array[i], w, array[i]);
         textAlign(LEFT, TOP);
-        textSize(map(array.length,1,100,40,12));
+        textSize(map(array.length, 1, 100, 40, 12));
         fill(0);
-        text(int(array[i]/10),(i+0.1)*w,height-array[i]+(height*.005));
+        text(int(array[i] / 10), (i + 0.1) * w, height - array[i] + (height * .005));
       } else if (representation === DOT) {
         ellipse(i * w, height - array[i], w, w)
       }
@@ -244,7 +242,7 @@ function draw() {
     stroke(0);
     fill(255);
     textSize(40);
-    text("Passes="+passes+" Swaps="+swaps+" Compares="+compares,width*0.2,50);
+    text("Passes=" + passes + " Swaps=" + swaps + " Compares=" + compares, width * 0.2, 50);
   }
 }
 
