@@ -1,5 +1,5 @@
-function QuickSortLomuto() {
-   this.name = 'Quick sort (Lomuto)';
+function QuickSort() {
+   this.name = 'Quick sort';
    this.count = 40;
    this.representation = 1;
    this.sorter = function* (arr, colors, start = 0, end = arr.length - 1, self = this) {
