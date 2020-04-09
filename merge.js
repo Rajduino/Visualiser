@@ -6,7 +6,7 @@ function MergeSort() {
       if (start < end) {
          // Split array into two parts
          let middle = floor((start + end) / 2);
-
+         passes++;
          // Sort parts recursively
          yield* self['sorter'](arr, colors, start, middle, self);
          yield* self['sorter'](arr, colors, middle + 1, end, self);
@@ -23,7 +23,6 @@ function MergeSort() {
          let j = middle + 1;
 
          while (i <= middle && j <= end) {
-            passes++;
             myDelay(100);
             colors[i] = color('red');
             colors[j] = color('red');
